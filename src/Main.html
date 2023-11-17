@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Comic Sans MS';
+            margin: 0;
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #counter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 25px;
+            color: #ffffff;
+        }
+        #dinheiro {
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            font-size: 30px;
+            color: #15ff00;
+        }
+        #version {
+            position: absolute;
+            bottom: 5px;
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        #achivementAtual {
+            position: absolute;
+            left: -500px;
+            font-size: 20px;
+            color: #FFE400
+        }
+
+        #stealButton {
+            font-family: 'Comic Sans MS';
+            position: absolute;
+            font-size: 1.5em;
+            bottom: 460px;
+            left: 1600px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #venderButton {
+            font-family: 'Comic Sans MS';
+            position: absolute;
+            font-size: 1.5em;
+            bottom: 400px;
+            left: 1600px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #itemsButton {
+            font-family: 'Comic Sans MS';
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.5em;
+            padding: 10px 100px;
+            cursor: pointer;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #theend {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(92, 92, 92);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #experiencia {
+            font-size: 50px;
+            color: #0011ff;
+        }
+        #rank {
+            font-size: 30px;
+            color: #ff0000;
+        }
+        #skip {
+            position: fixed;
+            font-size: 25px;
+            bottom: 10px;
+            color: #ffffff;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #itemLegalButton {
+            font-family: 'Comic Sans MS';
+            font-size: 1.5em;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #homemButton {
+            font-family: 'Comic Sans MS';
+            font-size: 1.5em;
+            bottom: -50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #comercialButton {
+            font-family: 'Comic Sans MS';
+            font-size: 1.5em;
+            bottom: -100px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #amigoButton {
+            font-family: 'Comic Sans MS';
+            font-size: 1.5em;
+            bottom: -100px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #finalButton {
+            font-family: 'Comic Sans MS';
+            font-size: 1.5em;
+            bottom: -100px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #exitButton {
+            font-family: 'Comic Sans MS';
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.5em;
+            padding: 10px 89.4px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Simulador de Farm de Esperma do Vinicius13</title>
+</head>
+<body>
+    <div id="version">Version 1.0.0</div>
+
+    <div id="achivementAtual">Iniciar o Jogo</div>
+
+    <div id="counter">Esperma: <span id="count">0</span></div>
+    <div id="dinheiro">Dinheiro: <span id="dinheir">0</span></div>
+
+    <button id="stealButton" onclick="incrementCounter()">Tirar Leite</button>
+    <button id="itemsButton" onclick="showOverlay()">Loja</button>
+    <button id="venderButton" onclick="ganharDinheiro()">Vender Esperma</button>
+
+    <!-- Overlay -->
+    <div id="overlay">
+        <button id="itemLegalButton" onclick="comprarUmTipo('boi')">
+        <button id="homemButton" onclick="comprarUmTipo('homem')">
+        <button id="comercialButton" onclick="comprarUmTipo('comercial')">
+        <button id="amigoButton" onclick="comprarUmTipo('amigo')">
+        <button id="finalButton" onclick="comprarUmTipo('final')">
+
+        <button id="exitButton" onclick="hideOverlay()">Voltar</button>
+    </div>
+
+    <div id="theend">
+        <img id="pls" src="https://images.uncyc.org/pt/c/c7/Distraction_Dance.gif"">
+        <div id="experiencia">Nível: <span id="ex">0</span></div>
+        <div id="rank">Rank: <span id="ranked">???</span></div>
+        <div id="skip" onclick="skip()">Skipar</div>
+    </div>
+
+    <script>
+        let count = 0;
+        let dinheiro = 0; // GEOMITRY DASH
+
+        let clickVale = 1;
+        let comercioVale = 1;
+
+        let boiPrice = 200;
+        let homemPrice = 5;
+        let amigoPrice = 250;
+        let comercialPrice = 5;
+        let finalPrice = 1;
+
+        let comprouofinal = false;
+
+        let subNivel = 0;
+        let nivel = 0;
+        let nivelAnim = false;
+
+        let nivelDisplay = 0;
+
+        let debug = false;
+
+        var game_version = "1.0.0"
+
+        translateX(5px)
+
+        function skip() {
+            nivelDisplay = nivel;
+        }
+
+        setInterval(() => {
+                if (debug == false) {
+                    if (finalPrice <= 2000000000000) {
+                        finalPrice = dinheiro + 0.1;
+                    }
+                }
+                document.getElementById('ex').innerText = nivelDisplay;
+                if (nivelAnim) {
+                    if (nivelDisplay <= nivel) {
+                        nivelDisplay += 1;
+                    }
+                    if (nivelDisplay == nivel) {
+                        nivelAnim = false
+                    }
+                }
+                if (subNivel > 20) {
+                    subNivel = 0;
+                    nivel += 1;
+                }
+                updateHUD();
+                updateItems();
+
+                addRank("Cool", 20);
+                addRank("Master", 40);
+                addRank("Sigma", 80);
+                addRank("Super Sigma", 120);
+                addRank("Super Mega Sigma", 240);
+                addRank("SUPER CREEPER", 1000);
+                addRank("SKIPIDI", 5000);
+                addRank("OR", 10000);
+                addRank("SIGMA", 20000);
+                addRank("GOD", 40000);
+                addRank("JDaniel", 1000000);
+                addRank("HACKER", 10000000);
+                addRank("CREATER OF THE GAME", 100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
+        }, 1);
+
+        function addRank(rankName, rankNive) {
+            if (nivelDisplay >= rankNive) {
+                document.getElementById('ranked').innerText = rankName;
+            }
+        }
+
+        function incrementCounter() {
+            if (!comprouofinal) {
+                count += clickVale;
+                subNivel += clickVale / 10;
+            }
+        }
+
+        function ganharDinheiro() {
+            if (!comprouofinal) {
+                if(count > 0)
+                {
+                    count -= comercioVale;
+                    dinheiro += comercioVale;
+                    if (count < 0) {
+                        count = 0;
+                    }
+                }
+            }
+        }
+
+        function showOverlay() { document.getElementById('overlay').style.display = 'flex';}
+        function hideOverlay() { document.getElementById('overlay').style.display = 'none';}
+
+        function comprarUmTipo(nomeSexy) {
+            let add = function(nome,preco, quando) {
+                if (nomeSexy == nome) {
+                    comprarItem(preco, quando);   
+                }
+            };
+
+            add("boi",boiPrice,function name() {
+                setInterval(() => {
+                    incrementCounter();
+                }, 1000);
+
+                boiPrice *= 2;
+            });
+
+            add("homem",homemPrice,function name() {
+                clickVale *= 2;
+                homemPrice *= 2;
+            });
+
+            add("comercial",comercialPrice,function name() {
+                comercioVale *= 2;
+                comercialPrice *= 2;
+            });
+
+            add("final",finalPrice,function name() {
+                document.getElementById('theend').style.display = 'flex';
+                nivelAnim = true;
+
+                finalPrice *= 2;
+            });
+
+            add("amigo",amigoPrice,function name() {
+                setInterval(() => {
+                    ganharDinheiro();
+                }, 1000);
+
+                amigoPrice *= 2;
+            });
+        }
+
+        function updateHUD()
+        {
+            document.getElementById('count').innerText = count;
+            document.getElementById('dinheir').innerText = dinheiro;
+        }
+
+        function updateItems()
+        {
+            configItem('itemLegalButton', 'Boi', boiPrice);
+            configItem('homemButton', 'Homem', homemPrice);
+            configItem('comercialButton', 'Comercial', comercialPrice);
+            configItem('finalButton', 'Final', finalPrice);
+            configItem('amigoButton', 'Amigo', amigoPrice);
+        }
+
+        function configItem(elemento,name,preco)
+        {
+            let daEle = document.getElementById(elemento);
+            daEle.innerText = name + ` (${preco} Dinheiros)`;
+
+            if (dinheiro >= preco) 
+            {
+                daEle.disabled = false;
+            }
+            else
+            {
+                daEle.disabled = true;
+            }
+        }
+
+        function comprarItem(preco, quandoComprar) {
+            if (dinheiro >= preco)
+            {
+                dinheiro -= preco;
+
+                quandoComprar();
+            }
+        }
+    </script>
+</body>
+</html>

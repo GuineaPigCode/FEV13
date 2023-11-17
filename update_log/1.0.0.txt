@@ -1,0 +1,2 @@
+bug do nivel arrumado
+adicionei o numero da versao do jogo
