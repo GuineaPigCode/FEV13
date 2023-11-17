@@ -1,3 +1,11 @@
+
+# Jogue Agora Mesmo!
+2 opçoes para vc jogar
+
+- Jogar pelo link: [FEV13 Game](https://guineapigcode.github.io/FEV13/)
+- Jogar baixando o jogo: [Arquivo](https://codeload.github.com/GuineaPigCode/FEV13/zip/refs/heads/main)
+
+
 <details> 
 <summary><h2>Sobre o jogo</h2></summary>
 
@@ -13,7 +21,6 @@ vc é um homem que estava pobre..... MAS TEVE UMA IDEIA por que nao vender o meu
 # Requirimentos
 1. um Navegador de sua preferencia.
 2. Monitor de 1980x1080 (vc pode até jogar com outra resoluçao, mas o jogo vai ficar bugado).
-
 </details> 
 
 <details> 
