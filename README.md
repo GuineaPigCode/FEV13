@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <details> 
 <summary><h2>Sobre o jogo</h2></summary>
 
