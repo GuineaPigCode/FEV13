@@ -56,5 +56,4 @@ Apertando o botao "Vender Esperma"
 - Amigo: Ele compra o seu esperma sem clicar para vender
 - Final: Vc vai para a tela final, que tem o Seu Nível e seu Rank
 
-=======
-<details> 
+</details> 
